@@ -16,17 +16,20 @@ function AddBudgetsForm() {
             required
           />
         </div>
+
         <div className="grid-xs">
           <label htmlFor="newBudgetAmount">Amount</label>
           <input
             type="number"
-            step="5"
             name="newBudgetAmount"
             id="newBudgetAmount"
             placeholder="e.g., Rs 250"
             required
           />
         </div>
+
+        <input type="hidden" name="_action" value="createBudget" />
+
         <button type="submit" className="btn btn--dark">
           <span>Create budget</span>
           <CurrencyDollarIcon width={20} />
