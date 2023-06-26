@@ -1,8 +1,9 @@
 import { useLoaderData } from "react-router-dom";
-import { createBudget, fetchData } from "../utils/helper";
+import { createBudget, createExpense, fetchData } from "../utils/helper";
 import Intro from "../components/Intro";
 import { toast } from "react-toastify";
 import AddBudgetsForm from "../components/AddBudgetsForm";
+import AddExpenseForm from "../components/AddExpenseForm";
 
 export function dashBoardLoader() {
   const userName = fetchData("userName");
@@ -36,6 +37,20 @@ export async function dashBoardAction({ request }) {
       );
     }
   }
+  if (_action === "createExpense") {
+    try {
+      createExpense({
+        name: values.newExpense,
+        amount: values.newExpenseAmount,
+        budgetId: values.newExpenseBudget,
+      });
+      return toast.success(`Budget ${values.newExpense} created successfully`);
+    } catch (error) {
+      throw new Error(
+        "There was an error creating your expense. Please try again."
+      );
+    }
+  }
 }
 
 function Dashboard() {
@@ -46,15 +61,23 @@ function Dashboard() {
       {userName ? (
         <div className="dashbaord">
           <h1>
-            Welxome back, <span className="accent">{userName}</span>
+            Welcome back, <span className="accent">{userName}</span>
           </h1>
           <div className="grid-sm">
-            {/* {budgets ?():()} */}
-            <div className="grid-lg">
-              <div className="flex-lg">
+            {budgets && budgets.length > 0 ? (
+              <div className="grid-lg">
+                <div className="flex-lg">
+                  <AddBudgetsForm />
+                  <AddExpenseForm budgets={budgets} />
+                </div>
+              </div>
+            ) : (
+              <div className="grid-sm">
+                <p>Personal budgeting is the secret to financial freedom.</p>
+                <p>Create a budget to get started!</p>
                 <AddBudgetsForm />
               </div>
-            </div>
+            )}
           </div>
         </div>
       ) : (
