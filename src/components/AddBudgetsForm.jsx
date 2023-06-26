@@ -36,7 +36,7 @@ function AddBudgetsForm() {
             type="number"
             name="newBudgetAmount"
             id="newBudgetAmount"
-            placeholder="e.g., Rs. 250"
+            placeholder="e.g., PKR 250"
             required
           />
         </div>

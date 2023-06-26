@@ -75,7 +75,7 @@ function Dashboard() {
   const { userName, budgets, expenses } = useLoaderData();
 
   return (
-    <div>
+    <>
       {userName ? (
         <div className="dashbaord">
           <h1>
@@ -122,7 +122,7 @@ function Dashboard() {
       ) : (
         <Intro />
       )}
-    </div>
+    </>
   );
 }
 
