@@ -1,5 +1,10 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { createBudget, createExpense, fetchData } from "../utils/helper";
+import {
+  createBudget,
+  createExpense,
+  deleteItem,
+  fetchData,
+} from "../utils/helper";
 import { toast } from "react-toastify";
 import Intro from "../components/Intro";
 import AddBudgetsForm from "../components/AddBudgetsForm";
@@ -47,10 +52,20 @@ export async function dashBoardAction({ request }) {
         amount: values.newExpenseAmount,
         budgetId: values.newExpenseBudget,
       });
-      return toast.success(`Budget ${values.newExpense} created successfully`);
+      return toast.success(`Expense ${values.newExpense} created successfully`);
     } catch (error) {
       throw new Error(
         "There was an error creating your expense. Please try again."
+      );
+    }
+  }
+  if (_action === "deleteExpense") {
+    try {
+      deleteItem({ key: "expenses", id: values.expenseId });
+      return toast.success("Expense deleted!");
+    } catch (error) {
+      throw new Error(
+        "There was an error deleting your expense. Please try again."
       );
     }
   }
