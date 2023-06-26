@@ -1,9 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import { createBudget, createExpense, fetchData } from "../utils/helper";
-import Intro from "../components/Intro";
 import { toast } from "react-toastify";
+import Intro from "../components/Intro";
 import AddBudgetsForm from "../components/AddBudgetsForm";
 import AddExpenseForm from "../components/AddExpenseForm";
+import BudgetItem from "../components/BudgetItem";
 
 export function dashBoardLoader() {
   const userName = fetchData("userName");
@@ -69,6 +70,12 @@ function Dashboard() {
                 <div className="flex-lg">
                   <AddBudgetsForm />
                   <AddExpenseForm budgets={budgets} />
+                </div>
+                <h2>Existing Budgets</h2>
+                <div className="budgets">
+                  {budgets.map((budget) => (
+                    <BudgetItem key={budget.id} budget={budget} />
+                  ))}
                 </div>
               </div>
             ) : (
