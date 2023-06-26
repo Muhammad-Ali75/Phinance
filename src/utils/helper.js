@@ -57,3 +57,5 @@ export const formatPercentage = (amt) =>
     style: "percent",
     maximumFractionDigits: 0,
   });
+
+export const formatDate = (epoch) => new Date(epoch).toLocaleString();

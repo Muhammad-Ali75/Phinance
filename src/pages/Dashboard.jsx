@@ -1,16 +1,18 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { createBudget, createExpense, fetchData } from "../utils/helper";
 import { toast } from "react-toastify";
 import Intro from "../components/Intro";
 import AddBudgetsForm from "../components/AddBudgetsForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
+import Table from "../components/Table";
 
 export function dashBoardLoader() {
   const userName = fetchData("userName");
   const budgets = fetchData("budgets");
+  const expenses = fetchData("expenses");
 
-  return { userName, budgets };
+  return { userName, budgets, expenses };
 }
 
 export async function dashBoardAction({ request }) {
@@ -55,7 +57,7 @@ export async function dashBoardAction({ request }) {
 }
 
 function Dashboard() {
-  const { userName, budgets } = useLoaderData();
+  const { userName, budgets, expenses } = useLoaderData();
 
   return (
     <div>
@@ -77,6 +79,21 @@ function Dashboard() {
                     <BudgetItem key={budget.id} budget={budget} />
                   ))}
                 </div>
+                {expenses && expenses.length > 0 && (
+                  <div className="grid-md">
+                    <h2>Recent expenses</h2>
+                    <Table
+                      expenses={expenses
+                        .sort((a, b) => b.createdAt - a.createdAt)
+                        .slice(0, 8)}
+                    />
+                    {expenses.length > 8 && (
+                      <Link to="expenses" className="btn btn--dark">
+                        View all expenses
+                      </Link>
+                    )}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="grid-sm">
